@@ -21,3 +21,5 @@ tmp/*
 !tmp/.gitkeep
 
 .vs/*
+
+build/
