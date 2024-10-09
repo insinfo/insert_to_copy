@@ -30,34 +30,40 @@ include_directories(
 
 # Crie a biblioteca estática pg_query
 add_library(pg_query STATIC ${SRC_FILES})
-#add_library(pg_query SHARED ${SRC_FILES})
+add_library(pg_query_s SHARED ${SRC_FILES})
 
 # Defina as flags de compilação
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I. -I./vendor -I./src/postgres/include -I./src/include -I./src/postgres/include/port/win32 -I./src/postgres/include/port/win32_msvc -I./protobuf -I./cjson")
 
 
 #Defina os executáveis de exemplo
-set(EXAMPLES    
-    simple
+#set(EXAMPLES    
+    #simple
     # scan
     # normalize
     # simple_error
     # normalize_error
     # simple_plpgsql
-)
+#)
+#foreach(example ${EXAMPLES})
+#    add_executable(${example} examples/${example}.c)
+#    target_link_libraries(${example} pg_query)
+#endforeach()
 
-foreach(example ${EXAMPLES})
-    add_executable(${example} examples/${example}.c)
-    target_link_libraries(${example} pg_query)
-endforeach()
 
-# Adicione os arquivos fonte
 set(EXAMPLES
     ${PROJECT_SOURCE_DIR}/examples/insert_to_copy.c
     ${PROJECT_SOURCE_DIR}/cjson/cJSON.c
 )
 add_executable(insert_to_copy ${EXAMPLES})
 target_link_libraries(insert_to_copy pg_query)
+
+set(EXAMPLES
+    ${PROJECT_SOURCE_DIR}/examples/insert_to_copy2.c
+    ${PROJECT_SOURCE_DIR}/cjson/cJSON.c
+)
+add_executable(insert_to_copy2 ${EXAMPLES})
+target_link_libraries(insert_to_copy2 pg_query)
 
 # Defina os executáveis de teste com nomes simples
 # set(TESTS
