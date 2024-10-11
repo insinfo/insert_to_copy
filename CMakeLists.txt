@@ -28,9 +28,19 @@ include_directories(
     ./examples
 )
 
-# Crie a biblioteca estática pg_query
+
+
+# Crie a biblioteca pg_query
 add_library(pg_query STATIC ${SRC_FILES})
 add_library(pg_query_s SHARED ${SRC_FILES})
+
+# No Windows, exporte todos os símbolos automaticamente
+# if (WIN32)
+#     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+# endif()
+if (WIN32)
+    set_target_properties(pg_query_s PROPERTIES LINK_FLAGS "/DEF:${CMAKE_SOURCE_DIR}/src/pg_query.def")
+endif()
 
 # Defina as flags de compilação
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I. -I./vendor -I./src/postgres/include -I./src/include -I./src/postgres/include/port/win32 -I./src/postgres/include/port/win32_msvc -I./protobuf -I./cjson")
